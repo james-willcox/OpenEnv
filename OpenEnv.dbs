@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="OpenEnv" id="Project_2929eb5" template="Default" database="PostgreSQL" >
+	<schema name="openenv" >
+		<table name="account" >
+			<comment><![CDATA[A users account details]]></comment>
+			<column name="account_id" type="integer" jt="4" />
+			<column name="first_name" type="varchar" length="100" jt="12" />
+			<column name="last_name" type="varchar" length="100" jt="12" />
+			<column name="email" type="varchar" length="256" jt="12" />
+			<column name="sign_up_date" type="timestamptz" jt="93" />
+			<fk name="fk_account_station" virtual="y" to_schema="openenv" to_table="station" >
+				<fk_column name="account_id" pk="account_id" />
+			</fk>
+		</table>
+		<table name="account_api_key" >
+			<column name="api_key_id" type="integer" jt="4" />
+			<column name="account_id" type="integer" jt="4" />
+			<column name="api_key" type="varchar" length="256" jt="12" />
+			<fk name="fk_account_api_key_account" virtual="y" to_schema="openenv" to_table="account" >
+				<fk_column name="account_id" pk="account_id" />
+			</fk>
+		</table>
+		<table name="login_details" >
+			<column name="login_details_id" type="integer" jt="4" mandatory="y" />
+			<column name="account_id" type="integer" jt="4" />
+			<column name="account_password" type="varchar" length="256" jt="12" />
+			<column name="modified_date" type="timestamptz" jt="93" />
+			<index name="pk_login_details_login_details_id" unique="PRIMARY_KEY" >
+				<column name="login_details_id" />
+			</index>
+			<fk name="fk_login_details_account" virtual="y" to_schema="openenv" to_table="account" >
+				<fk_column name="account_id" pk="account_id" />
+			</fk>
+		</table>
+		<table name="measurement_type" >
+			<column name="measurement_type_id" type="integer" jt="4" />
+			<column name="measurement_type" type="varchar" length="255" jt="12" >
+				<comment><![CDATA[The title of the measurement, i.e. temperature]]></comment>
+			</column>
+			<column name="units" type="varchar" length="255" jt="12" >
+				<comment><![CDATA[What are the units that this measurement is measured in, i.e. degrees c]]></comment>
+			</column>
+			<column name="description" type="text" jt="12" />
+			<column name="effective_from" type="timestamptz" jt="93" >
+				<comment><![CDATA[UTC date the record was effective from]]></comment>
+			</column>
+			<column name="effective_to" type="timestamptz" jt="93" >
+				<comment><![CDATA[UTC effective to date of the record, NULL if record is still effective]]></comment>
+			</column>
+			<fk name="fk_measurement_type_measurements" virtual="y" to_schema="openenv" to_table="measurements" >
+				<fk_column name="measurement_type_id" pk="measurement_type_id" />
+			</fk>
+		</table>
+		<table name="measurements" >
+			<comment><![CDATA[The primary table for this platform.  It will store all the raw data results for the OpenEnv system]]></comment>
+			<column name="measurement_id" type="integer" jt="4" mandatory="y" />
+			<column name="measurement_scale" type="decimal" length="20" decimal="6" jt="3" >
+				<comment><![CDATA[This is the raw reading of the measurement.  This will store values like Temperature, mm of rain fall etc.  For a vector quantity, this will store the scale part of (scale and direction)]]></comment>
+			</column>
+			<column name="direction" type="decimal" length="20" decimal="6" jt="3" >
+				<comment><![CDATA[for a vector quantity, this is the bearing, i.e. wind direction]]></comment>
+			</column>
+			<column name="measurement_type_id" type="integer" jt="4" />
+			<column name="latitude" type="decimal" length="12" decimal="6" jt="3" />
+			<column name="longitude" type="decimal" length="12" decimal="6" jt="3" />
+			<column name="measurement_datetime" type="timestamptz" jt="93" />
+			<column name="station_id" type="integer" jt="4" />
+			<index name="pk_measurements_measurement_id" unique="PRIMARY_KEY" >
+				<column name="measurement_id" />
+			</index>
+		</table>
+		<table name="station" >
+			<comment><![CDATA[This is the station that recorded the measurement]]></comment>
+			<column name="station_id" type="integer" jt="4" mandatory="y" />
+			<column name="account_id" type="integer" jt="4" />
+			<column name="station_api_key" type="varchar" length="256" jt="12" />
+			<column name="station_type_id" type="integer" jt="4" />
+			<index name="pk_station_station_id" unique="PRIMARY_KEY" >
+				<column name="station_id" />
+			</index>
+			<fk name="fk_station_measurements" virtual="y" to_schema="openenv" to_table="measurements" >
+				<fk_column name="station_id" pk="station_id" />
+			</fk>
+		</table>
+		<table name="station_location" >
+			<comment><![CDATA[measurements of the stations location]]></comment>
+			<column name="station_location_id" type="integer" jt="4" mandatory="y" />
+			<column name="station_id" type="integer" jt="4" />
+			<column name="latitude" type="decimal" length="12" decimal="6" jt="3" />
+			<column name="longitude" type="decimal" length="12" decimal="6" jt="3" />
+			<column name="effective_from_date" type="timestamptz" jt="93" />
+			<column name="effective_to_date" type="timestamptz" jt="93" />
+			<index name="pk_station_location_station_location_id" unique="PRIMARY_KEY" >
+				<column name="station_location_id" />
+			</index>
+			<fk name="fk_station_location_station" virtual="y" to_schema="openenv" to_table="station" >
+				<fk_column name="station_id" pk="station_id" />
+			</fk>options="" 
+		</table>
+		<table name="station_type" >
+			<column name="station_type_id" type="integer" jt="4" mandatory="y" />
+			<column name="type_label" type="varchar" length="126" jt="12" />
+			<column name="description" type="varchar" length="500" jt="12" />
+			<index name="pk_station_type_station_type_id" unique="PRIMARY_KEY" >
+				<column name="station_type_id" />
+			</index>
+			<fk name="fk_station_type_station" virtual="y" to_schema="openenv" to_table="station" >
+				<fk_column name="station_type_id" pk="station_type_id" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_5f3cc23" show_relation="columns" >
+		<entity schema="openenv" name="measurements" color="C1D8EE" x="48" y="48" />
+		<entity schema="openenv" name="measurement_type" color="C1D8EE" x="352" y="64" />
+		<entity schema="openenv" name="station_location" color="C1D8EE" x="560" y="304" />
+		<entity schema="openenv" name="account" color="C1D8EE" x="288" y="448" />
+		<entity schema="openenv" name="login_details" color="C1D8EE" x="480" y="704" />
+		<entity schema="openenv" name="station" color="C1D8EE" x="192" y="304" />
+		<entity schema="openenv" name="station_type" color="C1D8EE" x="48" y="416" />
+		<entity schema="openenv" name="account_api_key" color="C1D8EE" x="560" y="496" />
+	</layout>
+</project>
