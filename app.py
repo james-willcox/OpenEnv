@@ -7,6 +7,8 @@ from utilities.yaml_reader import read_config
 from db import db
 from ma import ma
 
+from resources.measurement import Measurement
+
 config = read_config()
 db_user = config['database']['user']
 db_pw = config['database']['pw']
@@ -23,6 +25,8 @@ app.config['PROPOGATE_EXCEPTIONS'] = config['app_config']['PROPOGATE_EXCEPTIONS'
 app.secret_key = config['app_config']['secret_key']
 
 api = Api(app)
+
+api.add_resource(Measurement, '/measurement')
 
 if __name__ == "__main__":
     db.init_app(app)

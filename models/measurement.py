@@ -13,3 +13,7 @@ class MeasurementModel(db.Model):
     longitude = db.Column(db.Float(precision=6))
     measurement_datetime = db.Column(db.DateTime)
     station_id = db.Column(db.Integer)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
