@@ -2,7 +2,7 @@ from db import db
 from datetime import datetime
 
 
-class LoginDetailsMolde(db.Model):
+class LoginDetailsModel(db.Model):
     __tablename__ = "login_details"
     __table_args__ = {"schema": "openenv"}
 
