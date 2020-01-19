@@ -1,6 +1,7 @@
 from db import db
 from datetime import datetime
 
+
 class MeasurementModel(db.Model):
     __tablename__ = "measurement"
     __table_args__ = {"schema": "openenv"}
