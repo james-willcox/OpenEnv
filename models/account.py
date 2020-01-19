@@ -3,6 +3,9 @@ from datetime import datetime
 
 
 class AccountModel(db.Model):
+    __tablename__ = "account"
+    __table_args__ = {"schema": "openenv"}
+
     account_id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))

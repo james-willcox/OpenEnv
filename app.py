@@ -8,6 +8,7 @@ from db import db
 from ma import ma
 
 from resources.measurement import Measurement
+from resources.account import CreateAccount
 
 config = read_config()
 db_user = config['database']['user']
@@ -27,6 +28,7 @@ app.secret_key = config['app_config']['secret_key']
 api = Api(app)
 
 api.add_resource(Measurement, '/measurement')
+api.add_resource(CreateAccount, '/register')
 
 if __name__ == "__main__":
     db.init_app(app)
