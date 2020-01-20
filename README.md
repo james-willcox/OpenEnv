@@ -5,3 +5,8 @@
  
  The database schema is maintained and mapped in the OpenEnv.dbs file.  This is a DB schema file,
  
+# Plan:
+1) API - Initially this service will just be an API for collecting measurements
+2) Developer Package - Create a python package to make it easy to interact with the API for those building raspberry pi weather stations
+3) Open API - New functionality allowing people to query the API for all the data in the database will be created. 
+4) Website - Will create a website to visually analyse the data and make it easier to sign up, submit data and view data
