@@ -61,8 +61,9 @@ class Login(Resource):
     def post(cls):
         account_json = request.get_json()
         account_password = account_json['password']
-        account_data = account_schema.load(account_json)
-        account = AccountModel.find_by_email(account_data.email)
+        account_js = account_json['email']
+        # account_data = account_schema.load(account_js)
+        account = AccountModel.find_by_email(account_js)
 
         if account is None:
             return {'message': NO_LOGIN_DETAILS}
