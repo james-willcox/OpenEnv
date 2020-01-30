@@ -11,7 +11,6 @@
 			<column name="email" type="varchar" length="256" jt="12" />
 			<column name="sign_up_date" type="timestamptz" jt="93" />
 			<column name="account_password" type="varchar" length="256" decimal="0" jt="12" />
-			<column name="salt" type="varchar" length="256" decimal="0" jt="12" />
 			<column name="modified_timestamp" type="timestamp" length="29" decimal="6" jt="93" />
 			<index name="pk_account_account_id" unique="PRIMARY_KEY" >
 				<column name="account_id" />
@@ -149,7 +148,6 @@
 	</schema>
 	<connector name="OpenEnv" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-42.2.8.jar" driver_desc="Heroku" host="opengeo.cigcika7szfc.ap-southeast-2.rds.amazonaws.com" port="5432" instance="openenv" user="postgres" passwd="SmFtZXMwNyo=" />
 	<layout name="Default Layout" id="Layout_5f3cc23" show_relation="columns" >
-		<entity schema="openenv" name="account" color="C1D8EE" x="288" y="432" />
 		<entity schema="openenv" name="station_type" color="C1D8EE" x="48" y="400" />
 		<entity schema="openenv" name="measurement" color="3986C1" x="112" y="48" />
 		<entity schema="openenv" name="measurement_type" color="C1D8EE" x="352" y="48" />
@@ -157,5 +155,6 @@
 		<entity schema="openenv" name="station_location" color="C1D8EE" x="560" y="64" />
 		<entity schema="openenv" name="key_types" color="C1D8EE" x="656" y="544" />
 		<entity schema="openenv" name="api_key" color="C1D8EE" x="560" y="352" />
+		<entity schema="openenv" name="account" color="C1D8EE" x="288" y="432" />
 	</layout>
 </project>

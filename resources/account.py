@@ -13,7 +13,7 @@ from models.account import AccountModel
 from schemas.account import AccountSchema
 from blacklist import BLACKLIST
 from argon2 import PasswordHasher
-import json
+
 
 account_schema = AccountSchema()
 
@@ -72,3 +72,11 @@ class Login(Resource):
 
         return {"message": INVALID_CREDENTIALS}, 401
 
+
+class Logout(Resource):
+    @classmethod
+    @jwt_required
+    def post(cls):
+        jti = get_raw_jwt()["jti"]
+        BLACKLIST.add(jti)
+        return {"message": "User Logged Out"}

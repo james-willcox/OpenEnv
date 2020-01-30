@@ -8,7 +8,8 @@ from db import db
 from ma import ma
 
 from resources.measurement import Measurement
-from resources.account import CreateAccount, Login
+from resources.account import CreateAccount, Login, Logout
+from resources.api_key import CreateApiKey
 
 config = read_config()
 db_user = config['database']['user']
@@ -36,6 +37,8 @@ jwt = JWTManager(app)
 api.add_resource(Measurement, '/measurement')
 api.add_resource(CreateAccount, '/register')
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
+api.add_resource(CreateApiKey, '/new_api_key')
 
 
 if __name__ == "__main__":

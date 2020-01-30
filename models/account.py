@@ -16,7 +16,7 @@ class AccountModel(db.Model):
 
     @classmethod
     def find_by_email(cls, email_address: str):
-        return cls.query.filter_by(email = email_address).first()
+        return cls.query.filter_by(email=email_address).first()
 
     @classmethod
     def find_by_id(cls, user_id: int):
