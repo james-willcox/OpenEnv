@@ -11,6 +11,8 @@ class AccountModel(db.Model):
     last_name = db.Column(db.String(255))
     email = db.Column(db.String(255))
     sign_up_date = db.Column(db.DateTime, default=datetime.now())
+    account_password = db.Column(db.String(256))
+    modified_timestamp = db.Column(db.DateTime, default=datetime.now())
 
     @classmethod
     def find_by_email(cls, email_address: str):
