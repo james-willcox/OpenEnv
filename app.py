@@ -10,7 +10,7 @@ from blacklist import BLACKLIST
 
 from resources.measurement import Measurement
 from resources.account import CreateAccount, Login, Logout
-from resources.api_key import CreateUserApiKey
+from resources.api_key import CreateUserApiKey, CreateStationApiKey
 
 config = read_config()
 db_user = config['database']['user']
@@ -35,15 +35,18 @@ api = Api(app)
 
 jwt = JWTManager(app)
 
+
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACKLIST
+
 
 api.add_resource(Measurement, '/measurement')
 api.add_resource(CreateAccount, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(CreateUserApiKey, '/create_user_api_key')
+api.add_resource(CreateStationApiKey, '/create_station_api_key')
 
 
 if __name__ == "__main__":

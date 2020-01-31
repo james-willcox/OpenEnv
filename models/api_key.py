@@ -29,3 +29,7 @@ class ApiKeyModel(db.Model):
     def find_user_api_keys(cls, account_id):
         return cls.query.filter_by(account_id=account_id, station_id=None).first()
 
+    @classmethod
+    def find_by_station_id(cls, station_id: int):
+        return cls.query.filter_by(station_id=station_id).first()
+

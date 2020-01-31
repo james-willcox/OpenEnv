@@ -34,6 +34,26 @@ class CreateUserApiKey(Resource):
             return {"message": f'Error creating API key'}
 
 
+class CreateStationApiKey(Resource):
+    @jwt_required
+    def post(self):
+        account_id = get_jwt_identity()
+        json_package = request.get_json()
+        if ApiKeyModel.find_by_station_id(station_id=json_package['station_id']):
+            return {'message': 'Station already has an API key'}, 400
+        new_api_key = uuid4()
+        new_station_key_dict = {}
+        new_station_key_dict['account_id'] = account_id
+        new_station_key_dict['api_key'] = new_api_key
+        new_station_key_dict['key_type_id'] = 2
+        new_station_key_dict['station_id'] = json_package['station_id']
+
+        api = api_key_schema.load(new_station_key_dict)
+        api.save_to_db()
+        return {'message': f'Your new station id is {new_api_key}'}, 201
+
+
+
 
 
 
